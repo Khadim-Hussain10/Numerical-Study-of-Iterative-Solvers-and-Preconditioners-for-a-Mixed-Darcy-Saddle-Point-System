@@ -4,54 +4,72 @@
 
 I started this project to improve my understanding of saddle-point problems, mixed finite element methods, and iterative solvers using Python.
 
-I am using a 2D Darcy flow problem as a starting point. My goal is to understand the mixed formulation, implement the numerical system, and then study iterative solvers such as MINRES and GMRES.
+I am using a 2D Darcy flow problem as a starting point. My goal is to understand the mixed formulation, solve the numerical system, and study how different iterative solvers perform.
 
-I also plan to explore preconditioning approaches based on Schur complements and artificial compressibility.
+I have started with MINRES and GMRES. Later, I plan to study preconditioning methods based on Schur complements and artificial compressibility.
 
 This project is related to my broader research interest in iterative preconditioners for saddle-point problems.
 
 ## Current Progress
 
-I have completed my first Google Colab notebook:
+So far, I have completed two notebooks.
+
+### Notebook 1: Mixed Darcy Formulation
 
 **[01_mixed_darcy_formulation.ipynb](01_mixed_darcy_formulation.ipynb)**
 
-In this notebook, I have:
+In my first notebook, I implemented a 2D mixed Darcy problem using RT0 elements for flux and P0 elements for pressure.
 
-- Set up the Python environment and defined an exact solution for a 2D Darcy problem.
-- Created a triangular mesh and used RT0 elements for flux and P0 elements for pressure.
-- Assembled the mixed Darcy saddle-point matrix and right-hand-side vector.
-- Solved the system using SciPy's direct solver.
-- Compared the numerical pressure and flux with the exact solution.
-- Studied how the pressure and flux errors change with mesh refinement.
-- Checked discrete local mass conservation.
+I assembled the saddle-point matrix and solved the system using SciPy's direct solver.
 
-For the initial mesh with 32 triangles, the system had 56 flux unknowns and 32 pressure unknowns.
+I compared the numerical pressure and flux with the exact solution. I also tested different mesh sizes and checked discrete local mass conservation.
 
-The direct solver gave a relative residual of approximately 7.44 × 10⁻¹⁶.
+The pressure and flux errors decreased when I refined the mesh.
 
-The pressure RMSE measured at triangle centers was approximately 0.02696, and the flux L² error was approximately 0.49982.
+These tests gave me a starting point for working with iterative solvers.
 
-I also tested finer meshes with 128 and 512 triangles. Both errors decreased as the mesh was refined.
+### Notebook 2: MINRES and GMRES
 
-The discrete mass balance error was close to machine precision.
+**[02-minres-gmres-solvers.ipynb](02-minres-gmres-solvers.ipynb)**
 
-These results give me a starting point for testing iterative solvers and preconditioners. More numerical verification may be needed as the project develops.
+In my second notebook, I studied MINRES and GMRES and used them to solve the same mixed Darcy system without preconditioners.
+
+I compared their solutions with the direct solver and checked the residuals and iteration counts.
+
+I also tested three mesh sizes, plotted the residual convergence history, and measured the computation times.
+
+During the experiments, I noticed that MINRES could report successful completion even when my calculated relative residual was above the target. I tested different tolerances to investigate this.
+
+For the 16 × 16 mesh with 1312 unknowns:
+
+- MINRES took 173 iterations and gave a relative residual of approximately 5.09 × 10⁻¹⁰.
+- GMRES took 363 iterations and gave a relative residual of approximately 9.93 × 10⁻⁹.
+- Both solvers reached my actual relative residual target of 10⁻⁸.
+
+In my timing experiment, the direct solver was the fastest, followed by MINRES and GMRES.
+
+These results are for the current problem and solver settings. I cannot use them to make general conclusions about solver performance.
+
+I will use these results as a baseline when I start testing preconditioners.
 
 ## Next Steps
 
-My next goal is to study and implement iterative solvers for the same mixed Darcy system.
+My next goal is to learn about Schur complement preconditioners and test suitable block preconditioning methods for the mixed Darcy system.
 
-I plan to start with MINRES and GMRES, compare them with the direct solver, and then investigate suitable preconditioners.
+I also plan to study the artificial compressibility approach.
 
-Later, I want to study Schur complement and artificial compressibility approaches.
+I want to compare the preconditioned solvers with the unpreconditioned MINRES and GMRES results.
 
 ## Tools
 
-Python, NumPy, SciPy, Matplotlib, scikit-fem, and Google Colab.
+Python, NumPy, SciPy, Matplotlib, scikit-fem, Google Colab, and Kaggle Notebooks.
 
 ## Project Status
 
 **In Progress**
 
-I will continue updating this repository as I learn, implement, and verify each part of the project.
+The mixed Darcy implementation and the initial MINRES and GMRES experiments are complete.
+
+The preconditioning part of the project has not been implemented yet.
+
+I will continue updating this repository as I learn, implement, and check each part of the project.
