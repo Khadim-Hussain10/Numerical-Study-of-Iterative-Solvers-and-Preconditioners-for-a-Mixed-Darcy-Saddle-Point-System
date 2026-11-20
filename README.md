@@ -2,7 +2,7 @@
 
 ![Status](https://img.shields.io/badge/Project-In_Progress-orange?style=flat-square)
 ![Language](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python&logoColor=FFD343)
-![Notebooks](https://img.shields.io/badge/Notebooks-3_Completed-2E8B57?style=flat-square)
+![Notebooks](https://img.shields.io/badge/Notebooks-4_Completed-2E8B57?style=flat-square)
 ![Research](https://img.shields.io/badge/Research-Numerical_Methods-6A5ACD?style=flat-square)
 
 ## About This Project
@@ -70,7 +70,7 @@ Saddle-Point System [Completed]
     ├── Direct Solver [Completed]
     └── MINRES and GMRES [Completed]
           ├── Schur Complement Preconditioners [Completed]
-          └── Artificial Compressibility Approach [Planned]
+          └── Artificial Compressibility Approach [Completed]
 
 Both preconditioning approaches
     ↓
@@ -81,14 +81,14 @@ Final Numerical Comparison [Planned]
 
 ## Current Progress
 
-So far, I have completed three notebooks.
+So far, I have completed four notebooks.
 
 | Notebook | Research Topic | Status |
 |---|---|---|
 | 01 | Mixed Darcy Formulation | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 | 02 | MINRES and GMRES | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 | 03 | Schur Complement Preconditioners | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
-| 04 | Artificial Compressibility | ![Planned](https://img.shields.io/badge/Planned-orange?style=flat-square) |
+| 04 | Artificial Compressibility | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 | 05 | Final Numerical Comparison | ![Planned](https://img.shields.io/badge/Planned-orange?style=flat-square) |
 
 ---
@@ -219,12 +219,70 @@ During my timing experiments, I learned that fewer iterations do not always mean
 
 ---
 
+
+## Notebook 4: Artificial Compressibility
+
+**[Open Notebook 4](04-artificial-compressibility.ipynb)**
+
+In my fourth notebook, I studied the artificial compressibility approach for the mixed Darcy saddle-point system.
+
+I started with a small matrix example to understand how the artificial compressibility parameter changes the system.
+
+I then implemented an iterative correction method using the modified saddle-point matrix to solve the original Darcy system.
+
+### Work Completed
+
+- Studied the artificial compressibility approach.
+- Implemented the modified saddle-point matrix.
+- Tested iterative corrections against a direct solution.
+- Investigated different artificial compressibility parameters.
+- Plotted residual convergence histories.
+- Tested three different mesh sizes.
+- Measured setup, solve, and total computation times.
+- Plotted and analyzed the numerical results.
+
+### Numerical Results
+
+I tested four parameter values on three mesh sizes.
+
+The iteration counts were:
+
+| Alpha | 4 × 4 | 8 × 8 | 16 × 16 |
+|---|---:|---:|---:|
+| 0.01 | 6 | 9 | 15 |
+| 0.10 | 12 | 25 | 71 |
+| 0.50 | 29 | 86 | 310 |
+| 1.00 | 48 | 160 | 609 |
+
+All 12 configurations reached my actual relative residual target of 10⁻¹⁰.
+
+I observed that smaller alpha values required fewer iterations for all three tested meshes.
+
+The number of iterations increased with mesh refinement for each fixed alpha value.
+
+### Computation Time
+
+I repeated each timing configuration five times.
+
+In my final saved timing results, alpha = 0.01 had the lowest measured total computation time on all three meshes.
+
+For the largest mesh with 1312 unknowns:
+
+- Alpha = 0.01 required 15 iterations and approximately 5.10 ms.
+- Alpha = 1.0 required 609 iterations and approximately 86.72 ms.
+
+These results are based on my current sparse LU implementation. Matrix assembly time was excluded.
+
+This notebook helped me understand how the artificial compressibility parameter affects convergence and computational cost.
+
+---
+
 ## Current Limitations
 
 - The study is limited to a two-dimensional Darcy flow problem.
 - I used constant permeability and RT0–P0 finite elements.
 - The largest tested system contains 1312 degrees of freedom.
-- I used dense Cholesky factorization to apply the preconditioners.
+- I used dense Cholesky factorization for the Schur complement preconditioners and sparse LU factorization for the artificial compressibility method.
 - Computation times depend on the implementation and computational environment.
 
 My current results are specific to the tested problem and solver settings.
@@ -236,7 +294,7 @@ My current results are specific to the tested problem and solver settings.
 - [x] Implement the mixed Darcy formulation.
 - [x] Study MINRES and GMRES.
 - [x] Implement Schur complement preconditioners.
-- [ ] Study and implement artificial compressibility.
+- [x] Study and implement artificial compressibility.
 - [ ] Compare the different preconditioning approaches.
 - [ ] Complete the final numerical analysis.
 
