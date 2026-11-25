@@ -1,8 +1,8 @@
 # Numerical Study of Iterative Solvers and Preconditioners for a Mixed Darcy Saddle-Point System
 
-![Status](https://img.shields.io/badge/Project-In_Progress-orange?style=flat-square)
+![Status](https://img.shields.io/badge/Project-Completed-2E8B57?style=flat-square)
 ![Language](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python&logoColor=FFD343)
-![Notebooks](https://img.shields.io/badge/Notebooks-4_Completed-2E8B57?style=flat-square)
+![Notebooks](https://img.shields.io/badge/Notebooks-5_Completed-2E8B57?style=flat-square)
 ![Research](https://img.shields.io/badge/Research-Numerical_Methods-6A5ACD?style=flat-square)
 
 ## About This Project
@@ -68,20 +68,17 @@ Finite Element Discretization [Completed]
     ↓
 Saddle-Point System [Completed]
     ├── Direct Solver [Completed]
-    └── MINRES and GMRES [Completed]
-          ├── Schur Complement Preconditioners [Completed]
-          └── Artificial Compressibility Approach [Completed]
-
-Both preconditioning approaches
+    ├── MINRES and GMRES [Completed]
+    ├── Schur Complement Preconditioners [Completed]
+    └── Artificial Compressibility Approach [Completed]
     ↓
-Final Numerical Comparison [Planned]
+Final Numerical Comparison [Completed]
 ```
-
 ---
 
 ## Current Progress
 
-So far, I have completed four notebooks.
+So far, I have completed five notebooks.
 
 | Notebook | Research Topic | Status |
 |---|---|---|
@@ -89,8 +86,7 @@ So far, I have completed four notebooks.
 | 02 | MINRES and GMRES | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 | 03 | Schur Complement Preconditioners | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 | 04 | Artificial Compressibility | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
-| 05 | Final Numerical Comparison | ![Planned](https://img.shields.io/badge/Planned-orange?style=flat-square) |
-
+| 05 | Final Numerical Comparison | ![Completed](https://img.shields.io/badge/Completed-2E8B57?style=flat-square) |
 ---
 
 ## Notebook 1: Mixed Darcy Formulation
@@ -277,6 +273,72 @@ This notebook helped me understand how the artificial compressibility parameter 
 
 ---
 
+## Notebook 5: Final Numerical Comparison
+
+**[Open Notebook 5](05-final-numerical-comparison.ipynb)**
+
+In my fifth notebook, I completed a numerical comparison of the iterative solvers and preconditioning approaches studied in my previous notebooks.
+
+I used the same two-dimensional mixed Darcy saddle-point system with RT0–P0 finite elements.
+
+My goal was to compare iteration counts, convergence behavior, and computational costs under a common actual relative residual target of 10⁻⁸.
+
+### Methods Compared
+
+- Direct sparse LU solver.
+- MINRES and GMRES without preconditioning.
+- Exact block diagonal Schur complement preconditioning.
+- Exact block triangular Schur complement preconditioning with GMRES.
+- Approximate block diagonal Schur complement preconditioning.
+- Artificial compressibility with four parameter values.
+
+### Work Completed
+
+- Assembled the Darcy system for three mesh sizes.
+- Computed direct reference solutions.
+- Compared MINRES and GMRES convergence.
+- Tested exact and approximate Schur complement preconditioners.
+- Compared artificial compressibility parameters.
+- Created combined iteration comparison tables and graphs.
+- Measured setup, solve, and total computation times.
+- Analyzed the numerical results and limitations.
+
+### Numerical Results
+
+I compared 11 iterative configurations across three mesh sizes, giving 33 iterative configurations.
+
+All 33 configurations satisfied my common actual relative residual target of 10⁻⁸.
+
+The exact Schur complement preconditioners reduced the Krylov iteration counts to 2 for every tested mesh.
+
+For artificial compressibility, alpha = 0.01 required the fewest correction iterations among the tested parameter values.
+
+### Computation Time
+
+I measured 12 solver configurations across three mesh sizes, with five timing repetitions per configuration.
+
+All 180 timed runs satisfied the residual target.
+
+For the largest mesh with 1312 unknowns:
+
+| Method | Average Total Time |
+|---|---:|
+| Direct sparse LU | 4.57 ms |
+| MINRES without preconditioning | 17.84 ms |
+| GMRES without preconditioning | 216.79 ms |
+| MINRES + Exact diagonal | 213.60 ms |
+| Artificial compressibility, alpha = 0.01 | 11.29 ms |
+
+I observed that fewer iterations did not always result in lower total computation time.
+
+The direct sparse LU solver had the lowest measured total time on all three tested meshes, although its time was almost identical to that of preconditioned MINRES on the smallest mesh.
+
+These results are specific to my implementations and tested problem sizes. Matrix assembly time was excluded, and the methods used different factorization techniques.
+
+This final notebook helped me understand why both convergence and computational cost are important when comparing numerical methods.
+
+---
+
 ## Current Limitations
 
 - The study is limited to a two-dimensional Darcy flow problem.
@@ -295,13 +357,12 @@ My current results are specific to the tested problem and solver settings.
 - [x] Study MINRES and GMRES.
 - [x] Implement Schur complement preconditioners.
 - [x] Study and implement artificial compressibility.
-- [ ] Compare the different preconditioning approaches.
-- [ ] Complete the final numerical analysis.
+- [x] Compare the different preconditioning approaches.
+- [x] Complete the final numerical analysis.
 
 ---
 
 ## Project Status
-
-![Status](https://img.shields.io/badge/Status-In_Progress-orange?style=for-the-badge)
-
-I will continue updating this repository as I learn, implement, and verify each part of the project.
+![Status](https://img.shields.io/badge/Status-Completed-2E8B57?style=for-the-badge)
+I have completed the five planned notebooks in this numerical study, including the final comparison of iterative solvers and preconditioning approaches.
+The results, code, and numerical experiments are available in this repository. The conclusions are specific to the tested Darcy problem and implementations.
