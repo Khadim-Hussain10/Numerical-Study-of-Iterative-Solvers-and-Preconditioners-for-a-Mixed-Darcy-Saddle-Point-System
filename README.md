@@ -364,5 +364,6 @@ My current results are specific to the tested problem and solver settings.
 
 ## Project Status
 ![Status](https://img.shields.io/badge/Status-Completed-2E8B57?style=for-the-badge)
+
 I have completed the five planned notebooks in this numerical study, including the final comparison of iterative solvers and preconditioning approaches.
 The results, code, and numerical experiments are available in this repository. The conclusions are specific to the tested Darcy problem and implementations.
